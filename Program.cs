@@ -6,31 +6,37 @@ namespace nvidia_settings_cli
 {
     class Program
     {
-        static void SetCoolerSpeed(PhysicalGPU gpu, int coolerId, int speed) {
+        static void SetCoolerSpeed(PhysicalGPU gpu, int coolerId, int speed)
+        {
             gpu.CoolerInformation.SetCoolerSettings(coolerId, speed);
         }
 
-        static void SetSpeedForGpu(PhysicalGPU gpu, int speed) {
+        static void SetSpeedForGpu(PhysicalGPU gpu, int speed)
+        {
             var coolers = gpu.CoolerInformation.Coolers;
             Console.WriteLine($"GPU: {gpu.FullName}");
             Console.WriteLine($"Found {coolers.Count()} coolers.");
-            foreach (var cooler in coolers) { 
+            foreach (var cooler in coolers)
+            {
                 Console.WriteLine($"Setting cooler {cooler.CoolerId} to {speed}.");
                 SetCoolerSpeed(gpu, cooler.CoolerId, speed);
             }
         }
 
-        static void ReportSpeeds(PhysicalGPU gpu) {
+        static void ReportSpeeds(PhysicalGPU gpu)
+        {
             var coolers = gpu.CoolerInformation.Coolers;
             Console.WriteLine($"GPU: {gpu.FullName}");
             Console.WriteLine($"Found {coolers.Count()} coolers.");
-            foreach (var cooler in coolers) { 
+            foreach (var cooler in coolers)
+            {
                 Console.Write($"Current Fan Speed for Cooler {cooler.CoolerId} is {gpu.CoolerInformation.CurrentFanSpeedLevel} %.");
             }
         }
 
 
-        static void SetFanSpeed(int speed) {
+        static void SetFanSpeed(int speed)
+        {
             var gpus = PhysicalGPU.GetPhysicalGPUs();
             foreach (var gpu in gpus)
             {
@@ -38,8 +44,10 @@ namespace nvidia_settings_cli
             }
         }
 
-        static void REPL() {
-            while (true) {
+        static void REPL()
+        {
+            while (true)
+            {
                 Console.WriteLine("What speed do you want your fan to go between 0 and 100 ? ");
                 var input = Console.ReadLine();
                 Console.WriteLine(""); // We want a blank line for future prints
@@ -60,7 +68,8 @@ namespace nvidia_settings_cli
             }
         }
 
-        static void Main(string[] args) {
+        static void Main(string[] args)
+        {
             REPL();
         }
     }
