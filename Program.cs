@@ -1,4 +1,5 @@
-﻿using NDesk.Options;
+﻿using Microsoft.Extensions.Logging;
+using NDesk.Options;
 using NvAPIWrapper.GPU;
 using System;
 
@@ -45,28 +46,47 @@ namespace nvidia_settings_cli
 
             bool repl = false;
             bool show_help = false;
-            //bool debug = false;
+            bool show_temp = false;
+            bool debug = false;
             int speed = 50;
 
             var optionSet = new OptionSet() {
-                { "r|repl",
-                   "enter a read-evaluate-print-loop which will keep prompting\n" +
-                      "for new speeds.",
-                     v => repl = v != null
+                { 
+                    "r|repl",
+                    "enter a read-evaluate-print-loop which will keep prompting\n" +
+                    "for new speeds.",
+                      v => repl = v != null
                 },
-
-                 { "s|speed=",
-                   "set the fan to this speed.\n" +
+                {
+                    "d|debug",
+                    "show debug logging",
+                      v => debug = v != null
+                },
+                { 
+                    "s|speed=",
+                    "set the fan to this speed.\n" +
                       "this must be an integer between 1 and 100.",
-                    (int v) => speed = v },
-
-                { "h|help",  "show this message and exit",
-                   v => show_help = v != null },
+                    (int v) => speed = v 
+                },
+                { 
+                    "t|temp",
+                    "get the current GPU temperature.",
+                     v => show_temp = v != null
+                },
+                { 
+                    "h|help",  
+                    "show this message and exit",
+                   v => show_help = v != null 
+                },
             };
 
 
             var e = optionSet.Parse(args);
 
+            if (debug) 
+            {
+                Logger.DEBUG = true;
+            }
             if (show_help)
             {
                 ShowHelp(optionSet);
@@ -75,6 +95,15 @@ namespace nvidia_settings_cli
             if (repl)
             {
                 REPL();
+                return;
+            }
+            if (show_temp)
+            {
+                var gpus = PhysicalGPU.GetPhysicalGPUs();
+                foreach (var gpu in gpus) {
+                    var temp = GpuFunctions.GetTemperature(gpu);
+                    Console.WriteLine(temp);
+                }
                 return;
             }
             GpuFunctions.SetFanSpeed(speed);

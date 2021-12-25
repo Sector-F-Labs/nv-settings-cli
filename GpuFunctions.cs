@@ -6,21 +6,34 @@ namespace nvidia_settings_cli
 {
     class GpuFunctions
     {
-        public static void SetCoolerSpeed(PhysicalGPU gpu, int coolerId, int speed)
+        public static bool DEBUG;
+
+        private static void _SetCoolerSpeed(PhysicalGPU gpu, int coolerId, int speed)
         {
             gpu.CoolerInformation.SetCoolerSettings(coolerId, speed);
         }
 
-        public static void SetSpeedForGpu(PhysicalGPU gpu, int speed)
+        public static void SetFanSpeed(PhysicalGPU gpu, int speed)
         {
             var coolers = gpu.CoolerInformation.Coolers;
-            Console.WriteLine($"GPU: {gpu.FullName}");
-            Console.WriteLine($"Found {coolers.Count()} coolers.");
+            
+            Logger.Debug($"GPU: {gpu.FullName}");
+            Logger.Debug($"Found {coolers.Count()} coolers.");
             foreach (var cooler in coolers)
             {
                 Console.WriteLine($"Setting cooler {cooler.CoolerId} to {speed}.");
-                SetCoolerSpeed(gpu, cooler.CoolerId, speed);
+                _SetCoolerSpeed(gpu, cooler.CoolerId, speed);
             }
+        }
+
+        public static int GetTemperature(PhysicalGPU gpu)
+        {
+            var sensors = gpu.ThermalInformation.ThermalSensors.ToArray();
+            foreach (var sensor in sensors)
+            {
+                Logger.Debug($"Found Sensor: {sensor.SensorId}");
+            }
+            return gpu.ThermalInformation.ThermalSensors.ToArray().FirstOrDefault().CurrentTemperature;
         }
 
         public static void ReportSpeeds(PhysicalGPU gpu)
@@ -39,7 +52,7 @@ namespace nvidia_settings_cli
             var gpus = PhysicalGPU.GetPhysicalGPUs();
             foreach (var gpu in gpus)
             {
-                SetSpeedForGpu(gpu, speed);
+                SetFanSpeed(gpu, speed);
             }
         }
     }
