@@ -20,8 +20,7 @@ namespace nvidia_settings_cli
             }
         }
 
-        static void ReportSpeeds(PhysicalGPU gpu)
-        {
+        static void ReportSpeeds(PhysicalGPU gpu) {
             var coolers = gpu.CoolerInformation.Coolers;
             Console.WriteLine($"GPU: {gpu.FullName}");
             Console.WriteLine($"Found {coolers.Count()} coolers.");
