@@ -30,5 +30,5 @@ Options:
   -s, --speed=VALUE          set the fan to this speed.
                                this must be an integer between 1 and 100.
   -t, --temp                 get the current GPU temperature.
-  -h, --help                 show this message and exitt
+  -h, --help                 show this message and exit.
 ```

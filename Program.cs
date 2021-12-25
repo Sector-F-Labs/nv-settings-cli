@@ -75,7 +75,7 @@ namespace nvidia_settings_cli
                 },
                 { 
                     "h|help",  
-                    "show this message and exit",
+                    "show this message and exit.",
                    v => show_help = v != null 
                 },
             };
