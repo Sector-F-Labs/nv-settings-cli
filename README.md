@@ -11,3 +11,22 @@ The state of command line utilities for controlling an Nvidia graphics card on W
 
 ## Testing
 Since this utility sets the GPU fan to a single speed. Its recommended that you install [MSI Afterburner](https://www.msi.com/Landing/afterburner/graphics-cards) so that you can set the fan speed back to Automatic or Curve based once you are finished with testing.
+
+
+## Usage
+
+Current functionality can be listed with the --help flag:
+
+```powershell
+Usage: nv-settings-cli [OPTIONS]
+Interact with Nvidia GPUs via the windows command line.
+If there are no options the GPU fan speed will be set to 50%.
+
+Options:
+  -r, --repl                 enter a read-evaluate-print-loop which will keep
+                               prompting
+                               for new speeds.
+  -s, --speed=VALUE          set the fan to this speed.
+                               this must be an integer between 1 and 100.
+  -h, --help                 show this message and exit
+```
