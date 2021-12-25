@@ -8,3 +8,6 @@ The state of command line utilities for controlling an Nvidia graphics card on W
 
 ## Building
 `nv-settings-cli` is a standard C# Console project and was built in Visual Studio. Simply clone the repo, open it with Visual Studio and fetch the NuGet packages.
+
+## Testing
+Since this utility sets the GPU fan to a single speed. Its recommended that you install [MSI Afterburner](https://www.msi.com/Landing/afterburner/graphics-cards) so that you can set the fan speed back to Automatic or Curve based once you are finished with testing.
